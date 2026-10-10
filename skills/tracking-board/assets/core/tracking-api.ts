@@ -14,7 +14,7 @@
 //
 // แก้ไข (9 ต.ค.): เดิมเขียนได้แค่คอมเมนต์ — ผู้ใช้ให้เป็นบอร์ดแบบ Trello สร้าง/แก้/ย้าย/ซ่อนเรื่องได้
 
-import { TRACKING_API_URL, TRACKING_IS_PRODUCTION } from './tracking-config'
+import { TRACKING_API_URL, TRACKING_ID, TRACKING_IS_PRODUCTION } from './tracking-config'
 import {
     parseTrackingPriority,
     parseTrackingStatus,
@@ -51,7 +51,7 @@ export const TRACKING_LIMITS = {
 } as const
 
 /** คีย์จำข้อมูลชุดล่าสุดไว้ในเครื่อง — โหลดไม่ได้ (เน็ตหลุด/สคริปต์ล่ม) ยังเปิดดูของเดิมได้ */
-const CACHE_KEY = 'atr-tracking-cache'
+const CACHE_KEY = `${TRACKING_ID}-cache`
 
 /** รอ Apps Script นานสุดเท่าไร — ตอนสคริปต์ตื่นจากหลับครั้งแรกอาจช้า 3–5 วินาที */
 const TIMEOUT_MS = 20_000

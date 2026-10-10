@@ -5,6 +5,7 @@ import {
     TRACKING_STATUS_LABEL,
     TRACKING_TYPE_LABEL,
 } from './tracking-labels'
+import { TRACKING_ID } from './tracking-config'
 import type { TrackingComment, TrackingItem } from './tracking-types'
 
 /**
@@ -68,7 +69,7 @@ export function downloadTrackingCsv(items: TrackingItem[], comments: TrackingCom
 
     const link = document.createElement('a')
     link.href = url
-    link.download = `atr-tracking-${new Date().toISOString().slice(0, 10)}.csv`
+    link.download = `${TRACKING_ID}-${new Date().toISOString().slice(0, 10)}.csv`
     link.click()
     // คืนหน่วยความจำทีหลัง — revoke ทันทีบางเบราว์เซอร์ยังไม่ทันเริ่มดาวน์โหลด
     setTimeout(() => URL.revokeObjectURL(url), 1000)

@@ -23,7 +23,7 @@ description: สร้าง "บอร์ดติดตามงานแบ�
 | `references/ui-spec.md` | สเปกหน้าจอทุกจุด + เช็คลิสต์ — **อ่านก่อนเขียนหน้า** |
 | `references/vue/` | ตัวอย่าง Vue 3 ที่ใช้งานจริง (อ่านเทียบ · README บอกสิ่งที่ผูกกับโปรเจกต์ต้นทาง) |
 | `references/setup-guide.md` | คู่มือตั้งค่า Google + SPA fallback ของแต่ละโฮสต์ — ก๊อปให้ผู้ใช้ |
-| `scripts/test-code-gs.js` | ทดสอบ Code.gs กับชีตจำลองใน node (ไม่ต้องใช้บัญชี Google) |
+| `scripts/test-code-gs.cjs` | ทดสอบ Code.gs กับชีตจำลองใน node (ไม่ต้องใช้บัญชี Google) |
 
 ## ขั้นตอน
 
@@ -31,7 +31,14 @@ description: สร้าง "บอร์ดติดตามงานแบ�
 
 หาเองให้มากที่สุด จะได้ถามน้อย: เฟรมเวิร์ก + เวอร์ชัน · router (โหมด history?) · UI kit / design token / ไอคอน ·
 modal · select · date picker · toast · ตัวจัดวันที่ที่มีอยู่ · ที่วาง lib (`src/lib/...`) · วิธีตั้งชื่อ env (`VITE_` / `NEXT_PUBLIC_` …) ·
-ภาษาหน้าจอที่แอปใช้ · ภาษาของ comment ในโค้ด · ไฟล์ตั้งค่าโฮสต์ (`wrangler.*` · `vercel.json` · `netlify.toml` · `_redirects` · nginx) · มีหน้า `/tracking` อยู่แล้วไหม
+ภาษาหน้าจอที่แอปใช้ · ภาษาของ comment ในโค้ด · ไฟล์ตั้งค่าโฮสต์ (`wrangler.*` · `vercel.json` · `netlify.toml` · `_redirects` · nginx) ·
+**มีบอร์ดเดิมอยู่แล้วไหม** (route `/tracking` · โฟลเดอร์ `lib/tracking` · env `*TRACKING_API_URL` · ไฟล์ `Code.gs`)
+
+**เจอบอร์ดเดิม** → ถามในรอบ 1 ว่า "สร้างบอร์ดใหม่แยก (แนะนำ · ของเดิมไม่แตะ) / อัปเกรดบอร์ดเดิม" — ห้ามก๊อปทับเงียบๆ
+- **บอร์ดใหม่แยก**: ตั้ง "รหัสบอร์ด" ไม่ซ้ำ (เช่น `tracking-plugin`) แล้วใช้กับ**ทุกอย่าง**: path · ชื่อโฟลเดอร์ lib/views · ไฟล์ route · ชื่อ route ·
+  ชื่อ env (`VITE_TRACKING_PLUGIN_API_URL`) · `TRACKING_ID` ใน `tracking-config.ts` · โฟลเดอร์สคริปต์ — ไม่งั้นไฟล์ทับของเดิม / ต่อชีตเดิม / localStorage ชน
+  ถามด้วยว่าใช้ชีตเดิมร่วม (URL เดียวกัน · ข้อมูลชุดเดียวกัน) หรือชีตใหม่
+- **อัปเกรด**: diff ไฟล์ในสกิลกับของเดิมก่อน ไล่ทีละไฟล์ · รักษาที่โปรเจกต์แก้เอง · Code.gs เปลี่ยน = ผู้ใช้ต้องวางสคริปต์ใหม่ + New version
 
 ### 2. สัมภาษณ์ผู้ใช้ (ใช้ AskUserQuestion · ใส่ "(แนะนำ)" ที่ตัวเลือกแรก)
 
@@ -57,14 +64,15 @@ modal · select · date picker · toast · ตัวจัดวันที่�
 ### 3. วางโค้ดแกน
 
 ก๊อป `assets/core/*.ts` ไปโฟลเดอร์ lib ของโปรเจกต์ (เช่น `src/lib/tracking/`)
-- แก้ `tracking-config.ts` ให้อ่าน env ตามเฟรมเวิร์ก (มีตัวอย่างในไฟล์) + ประกาศ type ของ env ถ้าโปรเจกต์ใช้ (เช่น `vite-env.d.ts`)
+- แก้ `tracking-config.ts` ให้อ่าน env ตามเฟรมเวิร์ก (มีตัวอย่างในไฟล์) + ประกาศ type ของ env ถ้าโปรเจกต์ใช้ (เช่น `vite-env.d.ts`) ·
+  ตั้ง `TRACKING_ID` (ใช้เป็นคีย์ localStorage + ชื่อไฟล์ CSV) — มีบอร์ดเดิม/หลายบอร์ดต้องไม่ซ้ำกัน
 - ปรับตามคำตอบสัมภาษณ์ → ทำตาม `references/customize.md`
 - มี type `Tone` / `SelectOption` / ตัวจัดวันที่ของโปรเจกต์อยู่แล้ว → เปลี่ยนไปใช้ของโปรเจกต์ได้ · ปรับภาษา/สไตล์ comment ให้ตรงโปรเจกต์
 
 ### 4. ทำหน้า
 
 ตาม `references/ui-spec.md` ด้วย component ของโปรเจกต์ — route สาธารณะ ไม่ต้องล็อกอิน ไม่ใช้ layout หลังล็อกอินของแอป
-- Vue 3 + Tailwind → เริ่มจาก `references/vue/` แล้วแทน import · เฟรมเวิร์กอื่น → เขียนตาม spec ดู Vue แค่ logic ที่ยาก
+- Vue 3 + Tailwind → เริ่มจาก `references/vue/` แล้วแทน import + ตั้ง `BOARD_TITLE` / `BOARD_LOGO_URL` ใน `Index.vue` · เฟรมเวิร์กอื่น → เขียนตาม spec ดู Vue แค่ logic ที่ยาก
 - UI kit ไม่มี modal ที่ปิดด้วยคลิกนอกไม่ได้ / select ที่ล้างค่าได้ → เพิ่มเป็น prop แบบ opt-in (ค่าเริ่มต้นไม่เปลี่ยนพฤติกรรมเดิมของที่อื่น)
 - ช่องเสริมที่ผู้ใช้ไม่เอา → ซ่อนในหน้าจอพอ ไม่ต้องตัดคอลัมน์ในชีต/Code.gs (ไม่มีผลเสีย และเปิดกลับง่าย)
 
@@ -80,7 +88,7 @@ modal · select · date picker · toast · ตัวจัดวันที่�
 
 ### 7. ทดสอบโดยไม่แตะชีตจริง
 
-- `node <base dir ของสกิล>/scripts/test-code-gs.js <path ของ Code.gs ในโปรเจกต์>` → ต้องได้ `ALL PASS`
+- `node <base dir ของสกิล>/scripts/test-code-gs.cjs <path ของ Code.gs ในโปรเจกต์>` → ต้องได้ `ALL PASS`
   แก้ Code.gs (สถานะ · ภาษา · กติกาชื่อ) แล้วต้องอัป test ให้ตรงกติกาใหม่ด้วย ไม่ใช่ลบข้อที่พัง
 - type-check / build ของโปรเจกต์ผ่าน
 - เปิดหน้าโดย**ไม่ตั้ง URL** (โหมดข้อมูลตัวอย่าง — อยู่ในหน่วยความจำ รีเฟรชแล้วหาย) แล้วไล่เช็คลิสต์ท้าย `ui-spec.md` ใน browser จริง

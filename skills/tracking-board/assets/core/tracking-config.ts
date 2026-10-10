@@ -9,9 +9,17 @@
 //   Create React App        : process.env.REACT_APP_TRACKING_API_URL        · process.env.NODE_ENV === 'production'
 //
 // ⚠️ URL นี้ไม่ใช่ความลับ (ใครเปิดหน้าเว็บก็เห็น) — ใส่ใน env ฝั่ง client ได้
+// ⚠️ แอปเดียวมีหลายบอร์ด (หรือมีบอร์ดเดิมอยู่แล้ว) → แต่ละบอร์ดต้องมี **ชื่อ env + TRACKING_ID ของตัวเอง**
+//    ไม่งั้นบอร์ดใหม่ไปต่อชีตของบอร์ดเดิม และใช้คีย์ localStorage ร่วมกัน (ตอนเน็ตหลุดโชว์ข้อมูลผิดบอร์ด)
 
 /** URL ของ Google Apps Script Web App (ลงท้าย `/exec`) · ว่าง = ยังไม่ได้ต่อชีต */
 export const TRACKING_API_URL: string = (import.meta.env.VITE_TRACKING_API_URL ?? '').trim()
+
+/**
+ * รหัสบอร์ด (kebab-case) — ใช้ตั้งคีย์จำข้อมูลในเครื่อง (`<id>-cache`) และชื่อไฟล์ CSV (`<id>-YYYY-MM-DD.csv`)
+ * @description เพิ่ม (v1.0.1): เดิมคีย์ตายตัว → 2 บอร์ดบนเว็บเดียวกันชนกัน · ตั้งให้ไม่ซ้ำกับบอร์ดอื่นใน origin เดียวกัน
+ */
+export const TRACKING_ID = 'tracking'
 
 /**
  * build จริงไหม

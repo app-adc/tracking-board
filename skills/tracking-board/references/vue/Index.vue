@@ -64,6 +64,11 @@ import TrackingItemModal from './components/TrackingItemModal.vue'
  * - ลิงก์ `?item=T-001` เปิดกล่องรายละเอียดเรื่องนั้นให้ทันที — ส่งลิงก์รายเรื่องในแชตได้
  */
 
+/** ชื่อบนหัวหน้า — ตั้งตามคำตอบสัมภาษณ์ (หรืออ่านจาก env ถ้าใช้เว็บเดียวกันหลายลูกค้า) */
+const BOARD_TITLE = 'ติดตามงาน'
+/** โลโก้บนหัวหน้า (path ใน public/ หรือ https://) — ว่าง = ไม่แสดง */
+const BOARD_LOGO_URL = ''
+
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
@@ -437,13 +442,15 @@ function downloadCsv() {
                 class="mx-auto flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-6"
                 :class="pageWidth"
             >
+                <!-- แก้ไข (v1.0.1): เดิมฝังโลโก้/ชื่อของโปรเจกต์ต้นทาง → ตั้งที่ BOARD_TITLE / BOARD_LOGO_URL ข้างบน -->
                 <img
-                    src="/logo.webp"
-                    alt="AUTOPAIR"
+                    v-if="BOARD_LOGO_URL"
+                    :src="BOARD_LOGO_URL"
+                    alt=""
                     class="h-7 w-auto rounded-md border border-line bg-white px-2 py-1"
                 />
                 <div class="min-w-0 flex-1">
-                    <h1 class="text-lead font-bold text-ink">ติดตามงาน ATR</h1>
+                    <h1 class="text-lead font-bold text-ink">{{ BOARD_TITLE }}</h1>
                     <p class="text-small text-muted">
                         คำถามที่รอคำตอบ · requirement ที่ค้าง · ของที่ขอเพิ่ม
                         <template v-if="data.fetchedAt">

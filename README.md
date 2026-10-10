@@ -41,7 +41,7 @@ Claude จะสร้างหน้าเว็บ + สคริปต์ `Co
 | `assets/Code.gs` | สคริปต์ฝั่ง Google |
 | `assets/core/` | โค้ดแกน TypeScript (ไม่ผูกเฟรมเวิร์ก — ปรับแค่ `tracking-config.ts`) |
 | `references/` | สเปกหน้าจอ · คู่มือปรับแต่ง · คู่มือตั้งค่า Google · ตัวอย่าง Vue 3 |
-| `scripts/test-code-gs.js` | ทดสอบ `Code.gs` กับชีตจำลอง: `node scripts/test-code-gs.js assets/Code.gs` |
+| `scripts/test-code-gs.cjs` | ทดสอบ `Code.gs` กับชีตจำลอง: `node scripts/test-code-gs.cjs assets/Code.gs` |
 
 ## หมายเหตุ
 
