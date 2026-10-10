@@ -1,0 +1,14 @@
+{
+  "name": "tracking-board",
+  "description": "สกิลสร้างบอร์ดติดตามงานแบบ Trello บน Google Sheets สำหรับ Claude Code",
+  "owner": {
+    "name": "app-adc"
+  },
+  "plugins": [
+    {
+      "name": "tracking-board",
+      "source": "./",
+      "description": "สร้างบอร์ดติดตามงานแบบ Trello ที่ใช้ร่วมกับลูกค้า เก็บข้อมูลใน Google Sheets ผ่าน Apps Script ใช้ได้ทุกเฟรมเวิร์ก"
+    }
+  ]
+}

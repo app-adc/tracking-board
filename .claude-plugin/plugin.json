@@ -1,0 +1,9 @@
+{
+  "name": "tracking-board",
+  "version": "1.0.0",
+  "description": "สร้างบอร์ดติดตามงานแบบ Trello (คำถามรอคำตอบ · requirement ค้าง · ของที่ขอเพิ่ม) ที่ใช้ร่วมกับลูกค้า เก็บใน Google Sheets ผ่าน Apps Script ไม่ต้องมี backend ใช้ได้ทุกเฟรมเวิร์ก",
+  "author": {
+    "name": "pureuser"
+  },
+  "keywords": ["tracking", "kanban", "trello", "google-sheets", "apps-script", "thai"]
+}
